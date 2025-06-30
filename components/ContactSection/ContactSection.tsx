@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 export default function ContactSection() {
   const handleEmailClick = () => {
-    window.location.href = "mailto:yourname@gmail.com";
+    window.location.href = "mailto:hello@arghyaghosh.com";
   };
 
   return (
