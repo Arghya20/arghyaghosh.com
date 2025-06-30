@@ -254,7 +254,7 @@ const ScrollExpandMediaWithBeams = ({
                 <div className="flex flex-col items-center text-center relative z-10 mt-4 transition-none">
                   {date && (
                     <p
-                      className=" text-yellow-400"
+                      className=" text-yellow-400/60"
                       style={{ transform: `translateX(-${textTranslateX}vw)` }}
                     >
                       {date}
@@ -262,7 +262,7 @@ const ScrollExpandMediaWithBeams = ({
                   )}
                   {scrollToExpand && (
                     <p
-                      className="text-yellow-400 font-medium text-center"
+                      className="text-yellow-400/60 font-medium text-center"
                       style={{ transform: `translateX(${textTranslateX}vw)` }}
                     >
                       {scrollToExpand}
@@ -321,29 +321,6 @@ const ScrollExpansionDemo = () => {
 
   return (
     <div className="min-h-screen">
-      <div className="fixed top-4 right-4 z-50 flex gap-2">
-        <button
-          onClick={() => setMediaType("video")}
-          className={`px-4 py-2 rounded-lg transition-all duration-300 ${
-            mediaType === "video"
-              ? "bg-yellow-400 text-black font-semibold"
-              : "bg-black/50 text-white border border-white/30 hover:bg-white/10"
-          }`}
-        >
-          Video
-        </button>
-
-        <button
-          onClick={() => setMediaType("image")}
-          className={`px-4 py-2 rounded-lg transition-all duration-300 ${
-            mediaType === "image"
-              ? "bg-yellow-400 text-black font-semibold"
-              : "bg-black/50 text-white border border-white/30 hover:bg-white/10"
-          }`}
-        >
-          Image
-        </button>
-      </div>
 
       <ScrollExpandMediaWithBeams
         mediaType={mediaType as "video" | "image"}

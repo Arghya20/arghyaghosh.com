@@ -1,51 +1,42 @@
 export interface Video {
-  id: string;
-  title: string;
-  description: string;
-  thumbnail: string;
-  videoUrl: string;
-  duration: string;
+  id: number;
+  videoId: string;
+  thumbnail?: string;
 }
 
 export const videos: Video[] = [
   {
-    id: '1',
-    title: 'Ocean Waves',
-    description: 'Relaxing ocean waves crashing on a pristine beach',
-    thumbnail: '',
-    videoUrl: 'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4',
-    duration: '2:30'
+    id: 1,
+    videoId: "g6se1x2eam",
+    thumbnail: "https://fast.wistia.com/embed/medias/g6se1x2eam/swatch",
   },
   {
-    id: '2',
-    title: 'Mountain Sunrise',
-    description: 'Beautiful sunrise over snow-capped mountains',
-    thumbnail: 'https://images.pexels.com/photos/933054/pexels-photo-933054.jpeg?auto=compress&cs=tinysrgb&w=800',
-    videoUrl: 'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4',
-    duration: '3:45'
+    id: 2,
+    videoId: "8ee17hbvok",
+    thumbnail: "https://img.youtube.com/vi/u8e2HN-Z1-A/maxresdefault.jpg",
   },
   {
-    id: '3',
-    title: 'City Lights',
-    description: 'Vibrant city skyline illuminated at night',
-    thumbnail: 'https://images.pexels.com/photos/374825/pexels-photo-374825.jpeg?auto=compress&cs=tinysrgb&w=800',
-    videoUrl: 'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4',
-    duration: '1:50'
+    id: 3,
+    videoId: "l0ynq2f6v4",
+    thumbnail: "https://fast.wistia.com/embed/medias/l0ynq2f6v4/swatch",
   },
   {
-    id: '4',
-    title: 'Forest Path',
-    description: 'Peaceful walk through an ancient forest',
-    thumbnail: 'https://images.pexels.com/photos/1557238/pexels-photo-1557238.jpeg?auto=compress&cs=tinysrgb&w=800',
-    videoUrl: 'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4',
-    duration: '4:20'
+    id: 4,
+    videoId: "g6se1x2eam",
+    thumbnail: "https://fast.wistia.com/embed/medias/g6se1x2eam/swatch",
   },
   {
-    id: '5',
-    title: 'Desert Dunes',
-    description: 'Golden sand dunes shifting in the wind',
-    thumbnail: 'https://images.pexels.com/photos/847402/pexels-photo-847402.jpeg?auto=compress&cs=tinysrgb&w=800',
-    videoUrl: 'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4',
-    duration: '2:15'
-  }
+    id: 5,
+    videoId: "_yUGiQa6H54",
+    youtubeId: "_yUGiQa6H54",
+    thumbnail: "https://img.youtube.com/vi/_yUGiQa6H54/maxresdefault.jpg",
+    type: "youtube",
+  },
+  {
+    id: 6,
+    videoId: "ZQXKp-ha89c",
+    youtubeId: "ZQXKp-ha89c",
+    thumbnail: "https://img.youtube.com/vi/ZQXKp-ha89c/maxresdefault.jpg",
+    type: "youtube",
+  },
 ];

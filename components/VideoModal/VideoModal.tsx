@@ -1,9 +1,7 @@
-'use client';
+"use client";
 
-import { Dialog, Transition } from '@headlessui/react';
-import { Fragment } from 'react';
-import { X } from 'lucide-react';
-import { Video } from '@/data/videos';
+import { useEffect } from "react";
+import { Video } from "@/data/videos";
 
 interface VideoModalProps {
   isOpen: boolean;
@@ -11,65 +9,97 @@ interface VideoModalProps {
   video: Video | null;
 }
 
-export default function VideoModal({ isOpen, onClose, video }: VideoModalProps) {
-  if (!video) return null;
+export default function VideoModal({
+  isOpen,
+  onClose,
+  video,
+}: VideoModalProps) {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("keydown", handleEscape);
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [isOpen, onClose]);
+
+  // Handle YouTube videos by opening in new tab
+  useEffect(() => {
+    if (isOpen && video && video.type === "youtube" && video.youtubeId) {
+      const youtubeUrl = `https://www.youtube.com/watch?v=${video.youtubeId}`;
+      window.open(youtubeUrl, "_blank", "noopener,noreferrer");
+      onClose(); // Close the modal since we're opening YouTube in a new tab
+    }
+  }, [isOpen, video, onClose]);
+
+  if (!isOpen || !video) return null;
+
+  // Only render modal for non-YouTube videos (Wistia)
+  if (video.type === "youtube") {
+    return null; // YouTube videos are handled by opening in new tab
+  }
 
   return (
-    <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={onClose}>
-        {/* Background Overlay */}
-        <Transition.Child
-          as={Fragment}
-          enter="ease-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in duration-200"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <div className="fixed inset-0 bg-black/95 backdrop-blur-sm" />
-        </Transition.Child>
-
-        <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4 text-center">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
+    <div
+      className="fixed inset-0 bg-black/95 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in duration-300"
+      onClick={onClose}
+    >
+      <div
+        className="max-w-5xl w-full bg-black rounded-2xl overflow-hidden shadow-2xl animate-in zoom-in-95 duration-300"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="relative">
+          {/* Close button */}
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 z-10 text-white/70 hover:text-white transition-colors p-2 bg-black/50 hover:bg-black/70 rounded-full backdrop-blur-sm group"
+          >
+            <svg
+              className="w-6 h-6 transition-transform group-hover:scale-110"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              <Dialog.Panel className="w-full max-w-5xl transform overflow-hidden rounded-2xl bg-black shadow-2xl transition-all">
-                {/* Close Button */}
-                <div className="absolute top-4 right-4 z-10">
-                  <button
-                    onClick={onClose}
-                    className="rounded-full bg-black/50 p-3 text-white/80 hover:bg-black/70 hover:text-white transition-all duration-200"
-                  >
-                    <X className="h-6 w-6" />
-                  </button>
-                </div>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
 
-                {/* Video Container */}
-                <div className="relative aspect-video bg-black">
-                  <video
-                    className="w-full h-full rounded-2xl"
-                    controls
-                    autoPlay
-                    poster={video.thumbnail}
-                    preload="metadata"
-                  >
-                    <source src={video.videoUrl} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
-                </div>
-              </Dialog.Panel>
-            </Transition.Child>
+          {/* Video player for Wistia videos */}
+          <div className="aspect-video">
+            {/* @ts-ignore */}
+            <wistia-player
+              media-id={video.videoId}
+              wistia-popover="false"
+              aspect="1.7777777777777777"
+              className="w-full h-full rounded-2xl overflow-hidden"
+            />
           </div>
         </div>
-      </Dialog>
-    </Transition>
+      </div>
+    </div>
   );
 }
