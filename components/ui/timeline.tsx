@@ -69,7 +69,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
                     {index + 1}
                   </span>
                 </div>
-                <h3 className="hidden md:block  md:pl-20 md:text-5xl bg-gradient-to-b from-gray-50/50 to-gray-300 bg-clip-text text-center text-8xl font-semibold leading-none text-transparent dark:from-white dark:to-slate-900/10 relative z-10">
+                <h3 className="hidden md:block  md:pl-20 md:text-5xl bg-gradient-to-b from-gray-50/50 to-gray-300 bg-clip-text text-center text-8xl font-semibold leading-5 md:leading-[1.2] text-transparent dark:from-white dark:to-slate-900/10 relative z-10">
                   {item.title}
                 </h3>
               </div>

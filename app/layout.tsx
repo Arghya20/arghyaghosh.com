@@ -1,17 +1,23 @@
-import './globals.css';
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import "./globals.css";
+import type { Metadata } from "next";
 
-const inter = Inter({ subsets: ['latin'] });
+import { Poppins } from "next/font/google";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-poppins",
+});
 
 export const metadata: Metadata = {
-  title: 'Zero1 - Professional Video Editing Services',
-  description: 'Transform your raw footage into cinematic masterpieces with our professional video editing services.',
+  title: "Arghya Ghosh | Creative Studio for Motion & Media",
+  description:
+    "Boost your brand with professional video editing services. I craft engaging YouTube videos, reels, ads & motion graphics with fast delivery and high-quality output.",
   // Add viewport and caching metadata
-  viewport: 'width=device-width, initial-scale=1',
+  viewport: "width=device-width, initial-scale=1",
   other: {
-    'Cache-Control': 'public, max-age=3600, must-revalidate'
-  }
+    "Cache-Control": "public, max-age=3600, must-revalidate",
+  },
 };
 
 export default function RootLayout({
@@ -22,9 +28,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <meta httpEquiv="Cache-Control" content="public, max-age=3600, must-revalidate" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <meta
+          httpEquiv="Cache-Control"
+          content="public, max-age=3600, must-revalidate"
+        />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={`${poppins.className} ${poppins.variable}`}>
+        {children}
+      </body>
     </html>
   );
 }

@@ -2,8 +2,6 @@ export interface Video {
   id: number;
   videoId: string;
   thumbnail?: string;
-  type?: "youtube" | "wistia";
-  youtubeId?: string;
 }
 
 export const videos: Video[] = [

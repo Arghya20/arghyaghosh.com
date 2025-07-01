@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import ScrollExpandMedia from "@/components/ui/scroll-expansion-hero";
 import { BeamsBackground } from "@/components/ui/beams-background";
 import TiltedCard from "./TiltedCard/tiltedCard";
 const HeroSection = "/videos/hero-section.webm";
@@ -8,16 +9,6 @@ const HeroSection = "/videos/hero-section.webm";
 interface MediaAbout {
   overview: string;
   conclusion: string;
-}
-
-interface MediaContent {
-  src: string;
-  poster?: string;
-  background: string;
-  title: string;
-  date: string;
-  scrollToExpand: string;
-  about: MediaAbout;
 }
 
 interface MediaContentCollection {
