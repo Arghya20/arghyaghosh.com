@@ -8,7 +8,7 @@ export const videos: Video[] = [
   {
     id: 1,
     videoId: "g6se1x2eam",
-    thumbnail: "https://fast.wistia.com/embed/medias/g6se1x2eam/swatch",
+    thumbnail: "https://img.youtube.com/vi/jZSQisglgZM/sddefault.jpg",
   },
   {
     id: 2,
@@ -17,13 +17,13 @@ export const videos: Video[] = [
   },
   {
     id: 3,
-    videoId: "l0ynq2f6v4",
-    thumbnail: "https://fast.wistia.com/embed/medias/l0ynq2f6v4/swatch",
+    videoId: "t39fb32elt",
+    thumbnail: "https://img.youtube.com/vi/5MHLYfqdszg/sddefault.jpg",
   },
   {
     id: 4,
-    videoId: "g6se1x2eam",
-    thumbnail: "https://fast.wistia.com/embed/medias/g6se1x2eam/swatch",
+    videoId: "l0ynq2f6v4",
+    thumbnail: "https://img.youtube.com/vi/vpUZ3oNKRT0/sddefault.jpg",
   },
   {
     id: 5,
