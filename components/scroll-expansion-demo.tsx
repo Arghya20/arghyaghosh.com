@@ -11,6 +11,16 @@ interface MediaAbout {
   conclusion: string;
 }
 
+interface MediaContent {
+  src: string;
+  poster?: string;
+  background: string;
+  title: string;
+  date: string;
+  scrollToExpand: string;
+  about: MediaAbout;
+}
+
 interface MediaContentCollection {
   [key: string]: MediaContent;
 }
