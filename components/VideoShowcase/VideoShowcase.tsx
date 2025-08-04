@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import ShowcaseCard from "@/components/ShowcaseCard/ShowcaseCard";
 import VideoModal from "@/components/VideoModal/VideoModal";
 import { videos, Video } from "@/data/videos";
@@ -8,50 +8,73 @@ import { videos, Video } from "@/data/videos";
 export default function VideoShowcase() {
   const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [scriptsLoaded, setScriptsLoaded] = useState(false);
 
-  useEffect(() => {
-    // Load Wistia scripts
-    const script1 = document.createElement("script");
-    script1.src = "https://fast.wistia.com/player.js";
-    script1.async = true;
-    document.head.appendChild(script1);
+  // Only load Wistia scripts when a video is actually clicked
+  const loadWistiaScripts = useCallback(async () => {
+    if (scriptsLoaded) return;
 
-    const script2 = document.createElement("script");
-    script2.src = "https://fast.wistia.com/embed/g6se1x2eam.js";
-    script2.async = true;
-    script2.type = "module";
-    document.head.appendChild(script2);
+    try {
+      // Load scripts only when needed
+      const script1 = document.createElement("script");
+      script1.src = "https://fast.wistia.com/player.js";
+      script1.async = true;
+      
+      const script2 = document.createElement("script");
+      script2.src = "https://fast.wistia.com/embed/g6se1x2eam.js";
+      script2.async = true;
+      script2.type = "module";
 
-    const style = document.createElement("style");
-    style.textContent = `
-      wistia-player[media-id='g6se1x2eam']:not(:defined) { 
-        background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/g6se1x2eam/swatch'); 
-        display: block; 
-        filter: blur(5px); 
-        padding-top: 56.25%; 
-      }
-    `;
-    document.head.appendChild(style);
+      // Wait for scripts to load
+      await Promise.all([
+        new Promise((resolve) => {
+          script1.onload = resolve;
+          document.head.appendChild(script1);
+        }),
+        new Promise((resolve) => {
+          script2.onload = resolve;
+          document.head.appendChild(script2);
+        })
+      ]);
 
-    setIsVideoLoaded(true);
+      const style = document.createElement("style");
+      style.textContent = `
+        wistia-player[media-id='g6se1x2eam']:not(:defined) { 
+          background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/g6se1x2eam/swatch'); 
+          display: block; 
+          filter: blur(5px); 
+          padding-top: 56.25%; 
+        }
+      `;
+      document.head.appendChild(style);
 
-    return () => {
-      if (document.head.contains(script1)) document.head.removeChild(script1);
-      if (document.head.contains(script2)) document.head.removeChild(script2);
-      if (document.head.contains(style)) document.head.removeChild(style);
-    };
-  }, []);
+      setScriptsLoaded(true);
+    } catch (error) {
+      console.error('Failed to load Wistia scripts:', error);
+    }
+  }, [scriptsLoaded]);
 
-  const handleVideoClick = (video: Video) => {
+  const handleVideoClick = useCallback(async (video: Video) => {
+    // For YouTube videos, open directly
+    if (video.type === "youtube" && video.youtubeId) {
+      const youtubeUrl = `https://www.youtube.com/watch?v=${video.youtubeId}`;
+      window.open(youtubeUrl, "_blank", "noopener,noreferrer");
+      return;
+    }
+
+    // For Wistia videos, load scripts first if needed
+    if (!scriptsLoaded) {
+      await loadWistiaScripts();
+    }
+
     setSelectedVideo(video);
     setIsModalOpen(true);
-  };
+  }, [loadWistiaScripts, scriptsLoaded]);
 
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback(() => {
     setIsModalOpen(false);
     setSelectedVideo(null);
-  };
+  }, []);
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -112,12 +135,14 @@ export default function VideoShowcase() {
           />
         </div>
 
-        {/* Video Modal */}
-        <VideoModal
-          isOpen={isModalOpen}
-          onClose={handleCloseModal}
-          video={selectedVideo}
-        />
+        {/* Video Modal - Only render for non-YouTube videos */}
+        {selectedVideo && selectedVideo.type !== "youtube" && (
+          <VideoModal
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+            video={selectedVideo}
+          />
+        )}
       </section>
     </div>
   );
