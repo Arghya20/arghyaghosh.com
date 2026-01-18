@@ -29,6 +29,8 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="preconnect" href="https://images.unsplash.com" />
+        <link rel="preconnect" href="https://i.ytimg.com" />
         <link rel="preconnect" href="https://img.youtube.com" />
         <link rel="preconnect" href="https://images.pexels.com" />
         <meta name="theme-color" content="#000000" />
@@ -37,8 +39,9 @@ export default function RootLayout({
           content="public, max-age=3600, must-revalidate"
         />
         {/* Critical CSS for preventing layout shift */}
-        <style dangerouslySetInnerHTML={{
-          __html: `
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
             * { box-sizing: border-box; }
             body { margin: 0; background: #000; color: #fff; }
             .loading-placeholder { 
@@ -50,8 +53,9 @@ export default function RootLayout({
               0% { background-position: 200% 0; }
               100% { background-position: -200% 0; }
             }
-          `
-        }} />
+          `,
+          }}
+        />
       </head>
       <body className={`${poppins.className} ${poppins.variable} antialiased`}>
         {children}

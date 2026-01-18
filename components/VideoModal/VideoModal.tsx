@@ -44,7 +44,7 @@ export default function VideoModal({
 
   // Handle YouTube videos by opening in new tab
   useEffect(() => {
-    if (isOpen && video && video.type === "youtube" && video.youtubeId) {
+    if (isOpen && video && video.type === "youtube" && video.youtubeId && typeof window !== 'undefined') {
       const youtubeUrl = `https://www.youtube.com/watch?v=${video.youtubeId}`;
       window.open(youtubeUrl, "_blank", "noopener,noreferrer");
       onClose(); // Close the modal since we're opening YouTube in a new tab

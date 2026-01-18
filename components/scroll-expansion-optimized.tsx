@@ -69,6 +69,8 @@ const ScrollExpandMediaOptimized = ({
 
   // Check for reduced motion preference
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     setReducedMotion(mediaQuery.matches);
     
@@ -90,6 +92,8 @@ const ScrollExpandMediaOptimized = ({
 
   // Throttled scroll handler
   const handleScroll = useCallback((deltaY: number) => {
+    if (typeof window === 'undefined') return;
+    
     const now = Date.now();
     if (now - lastScrollTime.current < 16) return; // ~60fps throttle
     
@@ -116,6 +120,8 @@ const ScrollExpandMediaOptimized = ({
   }, [scrollProgress, mediaFullyExpanded, reducedMotion]);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     if (reducedMotion) {
       // Skip complex scroll interactions for reduced motion
       setMediaFullyExpanded(true);
@@ -153,7 +159,7 @@ const ScrollExpandMediaOptimized = ({
     };
 
     const handlePageScroll = () => {
-      if (!mediaFullyExpanded) {
+      if (!mediaFullyExpanded && typeof window !== 'undefined') {
         window.scrollTo(0, 0);
       }
     };
@@ -176,6 +182,8 @@ const ScrollExpandMediaOptimized = ({
 
   // Optimized mobile detection
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     const checkIfMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
@@ -325,7 +333,9 @@ const ScrollExpansionDemo = () => {
   const currentMedia = sampleMediaContent[mediaType];
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
+    }
   }, [mediaType]);
 
   return (

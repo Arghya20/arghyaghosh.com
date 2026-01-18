@@ -1,5 +1,12 @@
 import dynamic from "next/dynamic";
-import ScrollExpansionDemo from "@/components/scroll-expansion-optimized";
+
+// Make ScrollExpansionDemo dynamic to avoid SSR issues
+const ScrollExpansionDemo = dynamic(() => import("@/components/scroll-expansion-optimized"), {
+  ssr: false,
+  loading: () => <div className="min-h-screen bg-black flex items-center justify-center">
+    <div className="text-white animate-pulse">Loading Experience...</div>
+  </div>,
+});
 
 // Lazy load heavy components to improve initial page load
 const VideoShowcase = dynamic(() => import("@/components/VideoShowcase/VideoShowcase"), {

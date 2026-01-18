@@ -13,10 +13,7 @@ const nextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
-  experimental: {
-    optimizeCss: true,
-    optimizePackageImports: ['framer-motion', 'lucide-react'],
-  },
+  // Removed experimental features that cause build issues
   // Remove the headers configuration as it's not compatible with static exports
 };
 

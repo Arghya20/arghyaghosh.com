@@ -56,7 +56,7 @@ export default function VideoShowcase() {
 
   const handleVideoClick = useCallback(async (video: Video) => {
     // For YouTube videos, open directly
-    if (video.type === "youtube" && video.youtubeId) {
+    if (video.type === "youtube" && video.youtubeId && typeof window !== 'undefined') {
       const youtubeUrl = `https://www.youtube.com/watch?v=${video.youtubeId}`;
       window.open(youtubeUrl, "_blank", "noopener,noreferrer");
       return;

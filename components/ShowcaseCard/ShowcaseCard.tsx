@@ -20,6 +20,17 @@ export default function ShowcaseCard({
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
 
+  const fallbackSvg = `data:image/svg+xml;base64,${btoa(`
+    <svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="400" height="300" fill="#1F2937"/>
+      <circle cx="200" cy="150" r="40" fill="#6366F1"/>
+      <svg x="180" y="130" width="40" height="40" viewBox="0 0 24 24" fill="white">
+        <path d="M8 5v14l11-7z"/>
+      </svg>
+      <text x="200" y="220" text-anchor="middle" fill="#9CA3AF" font-family="Arial" font-size="14">Video ${video.id}</text>
+    </svg>
+  `)}`;
+
   return (
     <Card
       className={cn(
@@ -31,29 +42,25 @@ export default function ShowcaseCard({
       <div className="relative w-full h-full overflow-hidden">
         {/* Loading placeholder */}
         {!imageLoaded && !imageError && (
-          <div className="absolute inset-0 bg-gray-800 animate-pulse flex items-center justify-center">
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 animate-pulse flex items-center justify-center z-10">
             <div className="text-gray-400 text-sm">Loading...</div>
           </div>
         )}
 
-        {/* Error fallback */}
-        {imageError && (
-          <div className="absolute inset-0 bg-gray-800 flex items-center justify-center">
-            <div className="text-gray-400 text-sm">Failed to load</div>
-          </div>
-        )}
-
         <img
-          src={video.thumbnail}
+          src={imageError ? fallbackSvg : video.thumbnail}
           alt={`Video ${video.id} thumbnail`}
           className={cn(
             "w-full h-full object-cover transition-all duration-500 group-hover:scale-105",
             imageLoaded ? "opacity-100" : "opacity-0"
           )}
-          loading="lazy"
-          decoding="async"
           onLoad={() => setImageLoaded(true)}
-          onError={() => setImageError(true)}
+          onError={() => {
+            if (!imageError) {
+              setImageError(true);
+              setImageLoaded(true); // Show fallback immediately
+            }
+          }}
           style={{ willChange: 'transform' }}
         />
 
